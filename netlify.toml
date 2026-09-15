@@ -1,0 +1,17 @@
+# Build configuration for Netlify (TanStack Start + Nitro netlify preset)
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  # Nitro reads this to confirm the target; the vite.config.ts preset already pins it.
+  NITRO_PRESET = "netlify"
+
+# Netlify's nitro preset emits a serverless function automatically; no manual
+# functions block is needed. This single rewrite lets TanStack Router handle
+# all routes (SSR + client navigation) instead of Netlify returning 404s.
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/index"
+  status = 200
+
